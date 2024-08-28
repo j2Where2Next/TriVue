@@ -1,7 +1,6 @@
 <template>
   <div>
-      <h1>Template for Quiz Game</h1>
-
+      <h1 v-html="this.question"></h1>
       <input type="radio" name="options" value="True">
       <label>True</label><br>
 
@@ -23,11 +22,21 @@ export default {
       correctAnswer: undefined
     }
   },
+  computed: {
+    answers() {
+      var answers = [...this.incorrectAnswers];
+      answers.splice(Math.round(Math.random() * 4), 0, this.correctAnswer);
+      return answers;
+    }
+  },
   
   created() {
     this.axios
     .get('https://opentdb.com/api.php?amount=1&category=18')
     .then((response) => {
+      this.question = response.data.results[0].question;
+      this.incorrectAnswers = response.data.results[0].incorrect_answers;
+      this.correctAnswer = response.data.results[0].correct_answer;
       console.log(response.data.results[0])   
     })
   }
@@ -44,8 +53,14 @@ export default {
   margin-top: 60px;
   max-width: 960px;
 
-  input[type=radio] {
-    margin: 12px 4px;
+  .option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  input[type="radio"] {
+    margin: 12px 4px; 
   }
 
   button.send {
