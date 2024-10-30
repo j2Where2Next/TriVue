@@ -72,7 +72,7 @@ export default {
       this.question = undefined;
 
       this.axios
-        .get('https://opentdb.com/api.php?amount=1&category=18')
+        .get('https://opentdb.com/api.php?amount=1&category=26')
         .then((response) => {
           this.question = response.data.results[0].question;
           this.incorrectAnswers = response.data.results[0].incorrect_answers;
